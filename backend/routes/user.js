@@ -42,7 +42,7 @@ router.post("/signup", async (req, res) => {
 });
 
 
-router.put("/update-user", async (req, res) => {
+router.put("/update-user",authMiddleware, async (req, res) => {
   const updatedData = req.body;
   const userDetails = await User.findByIdAndUpdate(req.userId ,updatedData);
 
