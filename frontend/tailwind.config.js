@@ -6,7 +6,8 @@ export default {
   ],
   theme: {
     fontFamily: {
-      'opensans': ['"Open Sans"', 'sans-serif']
+      'opensans': ['"Open Sans"', 'sans-serif'],
+      'Inter': ["Inter", 'sans-serif'],
     },
     extend: {},
   },
