@@ -4,11 +4,6 @@ import UserDetails from "./UserDetails";
 import LoadingUsers from "./LoadingUsers";
 import axios from "axios";
 
-/*
- TODO:
-  1.add skeletal loading while fetching users.
-  2. functionality of sending money to users.
-*/
 const Users = () => {
   const [filter, setFilter] = useState("");
   const [usersList, setUsersList] = useState([]);

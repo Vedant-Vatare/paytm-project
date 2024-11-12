@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 const zod = require("zod");
 const mongoose = require("mongoose");
 const { authMiddleware } = require("../middleware");
@@ -69,7 +69,7 @@ router.get("/profile", authMiddleware, async (req, res) => {
     const { email, firstName, lastName } = await User.findById(req.userId);
     res.status(200).json({ user: { email, firstName, lastName } });
   } catch (e) {
-    res.status(500).json({ message: "Could not get the user." });
+    res.status(500).json({ message: "Could not get the user." , e});
   }
 });
 

@@ -5,11 +5,11 @@
   import SubmitButton from "../components/SubmitButton";
   import RedirectText from "../components/RedirectText";
   import axios from "axios";
-import { useNavigate } from "react-router-dom";
+  import { useNavigate } from "react-router-dom";
   function Signup() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setlastName] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(""); 
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
     async function sendData(e) {

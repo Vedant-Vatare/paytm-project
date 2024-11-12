@@ -4,7 +4,7 @@ const LoadingUsers = memo(()=> {
   console.log("loading users.")
   return (
     <>
-      <p>Lorem, ipsum.</p>
+      <p>Loading users</p>
     </>
   )
 })

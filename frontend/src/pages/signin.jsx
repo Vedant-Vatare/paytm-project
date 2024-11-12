@@ -12,9 +12,7 @@ function Signin() {
   const [password, setPassword] = useState("")
   const navigate = useNavigate();
   async function signInrequest() {
-    console.log(email, password)
-    const response = await axios.post(
-      "http://localhost:3000/api/v1/user/signin",
+    const response = await axios.post("http://localhost:3000/api/v1/user/signin",
       {
         email: email,
         password: password

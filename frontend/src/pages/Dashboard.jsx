@@ -3,6 +3,7 @@ import Appbar from "../components/Appbar.jsx";
 import BalanceDetails from "../components/BalanceDetails.jsx";
 import Users from "../components/Users.jsx";
 import axios from "axios";
+
 const Dashboard = () => {
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {

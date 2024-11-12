@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { string } = require("zod");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({path: "./.env"});
 mongoose.connect(process.env.MONGODB_URL);
 
 const userShcema = new mongoose.Schema({
