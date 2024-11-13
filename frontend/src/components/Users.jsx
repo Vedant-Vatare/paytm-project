@@ -9,7 +9,19 @@ const Users = () => {
   const [usersList, setUsersList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  function debounce(callback, delay=1000) {
+    let timeout;
+    return (...args)=> {
+      clearInterval(timeout)
+      timeout = setTimeout(()=> callback(...args), delay);
+    }
+  }
+
+  const debounceFilter = debounce(value => setFilter(value), 1000)
+  
   function fetchUsers() {
+    setIsLoading(true);
+    console.log("sent req...")
     axios
       .get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`, {
         headers: {
@@ -24,7 +36,6 @@ const Users = () => {
         setUsersList(response.data.users);
       })
       .catch((err) => {
-        
         setUsersList([]);
       })
       .finally(() => {
@@ -33,7 +44,6 @@ const Users = () => {
   }
 
   useEffect(() => {
-    setIsLoading(true);
     fetchUsers();
   }, [filter]);
   return (
@@ -43,9 +53,10 @@ const Users = () => {
         name="user"
         placeholder="Search Users"
         type="text"
-        handler={(e) => setFilter(e.target.value)}
+        handler={(e) => debounceFilter(e.target.value)}
       />
       <div className="mt-8">
+        {console.log("calculating users state", isLoading)}
         {usersList.length > 0 ? (
           usersList.map((user, index) => {
             return (

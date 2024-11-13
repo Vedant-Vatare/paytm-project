@@ -21,7 +21,7 @@ const Dashboard = () => {
   return (
     <div className="h-screen scrollbar-gutter-push">
       <Appbar  userFullname={`${userDetails?.firstName} ${userDetails?.lastName}`}/>
-      <div className="w-full mt-4 px-2 md:px-8 ">
+      <div className="w-[95vw] sm:w-full mt-4 px-2 md:px-8 m-auto">
         <BalanceDetails />
         <Users />
       </div>
