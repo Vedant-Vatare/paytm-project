@@ -21,7 +21,6 @@ const Users = () => {
 
   const fetchUsers = async () => {
     setIsLoading(true);
-    console.log("sent req...");
     try {
       const response = await axios.get(
         `http://localhost:3000/api/v1/user/bulk?filter=${filter}`,

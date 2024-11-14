@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes, redirect } from "react-router-dom";
-import Signin from "./pages/signin";
-import Signup from "./pages/signup";
-import Dashboard from "./pages/dashboard";
-import SendMoney from "./pages/sendMoney";
+import { lazy } from "react";
+const Signin = lazy(() => import("./pages/signin"));
+const Signup = lazy(() => import("./pages/signup"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const SendMoney = lazy(() => import("./pages/sendMoney"));
+
 function App() {
   redirect("/signin");
   return (

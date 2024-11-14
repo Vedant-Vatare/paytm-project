@@ -8,6 +8,7 @@ export default {
     fontFamily: {
       'opensans': ['"Open Sans"', 'sans-serif'],
       'Inter': ["Inter", 'sans-serif'],
+      'poppins': [ "Poppins", "sans-serif"]
     },
     extend: {},
   },

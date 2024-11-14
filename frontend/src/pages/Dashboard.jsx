@@ -18,6 +18,7 @@ const Dashboard = () => {
       .then((response) => setUserDetails(response.data.user))
       .catch(err => console.log(err));
   }, []);
+  
   return (
     <div className="h-screen overflow-y-scroll">
       <Appbar  userFullname={`${userDetails?.firstName} ${userDetails?.lastName}`}/>

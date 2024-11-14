@@ -23,7 +23,7 @@ function Signin() {
   }
   return (
     <>
-      <div className="w-full h-[100vh] flex items-center justify-center ">
+      <div className="w-full h-[100vh] flex items-center justify-center bg-gray-100">
         <div className="shadow w-[90%] max-w-[500px] px-8 md:px-10 py-4 flex items-center flex-col self-center border-2  rounded-2xl bg-white">
           <CardHeading heading={"Sign In"} />
           <SectionText text={"Enter your credentials to access your account"} />
