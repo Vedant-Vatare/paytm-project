@@ -19,7 +19,7 @@ const Dashboard = () => {
       .catch(err => console.log(err));
   }, []);
   return (
-    <div className="h-screen scrollbar-gutter-push">
+    <div className="h-screen overflow-y-scroll">
       <Appbar  userFullname={`${userDetails?.firstName} ${userDetails?.lastName}`}/>
       <div className="w-[95vw] sm:w-full mt-4 px-2 md:px-8 m-auto">
         <BalanceDetails />

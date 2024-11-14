@@ -9,39 +9,35 @@ const Users = () => {
   const [usersList, setUsersList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  function debounce(callback, delay=1000) {
+  function debounce(callback, delay = 1000) {
     let timeout;
-    return (...args)=> {
-      clearInterval(timeout)
-      timeout = setTimeout(()=> callback(...args), delay);
-    }
+    return (...args) => {
+      clearInterval(timeout);
+      timeout = setTimeout(() => callback(...args), delay);
+    };
   }
 
-  const debounceFilter = debounce(value => setFilter(value), 1000)
-  
-  function fetchUsers() {
+  const debounceFilter = debounce((value) => setFilter(value), 1000);
+
+  const fetchUsers = async () => {
     setIsLoading(true);
-    console.log("sent req...")
-    axios
-      .get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(
-        (response) =>
-          new Promise((resolve) => setTimeout(() => resolve(response), 2000))
-      )
-      .then((response) => {
-        setUsersList(response.data.users);
-      })
-      .catch((err) => {
-        setUsersList([]);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+    console.log("sent req...");
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/user/bulk?filter=${filter}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setUsersList(response.data.users);
+      setIsLoading(false);
+    } catch (e) {
+      console.log("Error:", e);
+      setUsersList([]);
+    }
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -56,8 +52,9 @@ const Users = () => {
         handler={(e) => debounceFilter(e.target.value)}
       />
       <div className="mt-8">
-        {console.log("calculating users state", isLoading)}
-        {usersList.length > 0 ? (
+        {isLoading ? (
+          <LoadingUsers />
+        ) : usersList.length > 0 ? (
           usersList.map((user, index) => {
             return (
               <UserDetails
@@ -67,8 +64,6 @@ const Users = () => {
               />
             );
           })
-        ) : isLoading ? (
-          <LoadingUsers />
         ) : (
           <h1>Users could not be fetched</h1>
         )}
