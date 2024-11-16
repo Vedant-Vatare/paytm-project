@@ -59,6 +59,7 @@ const Users = () => {
               <UserDetails
                 firstName={user.firstName}
                 lastName={user.lastName}
+                userId={user._id}
                 key={index}
               />
             );

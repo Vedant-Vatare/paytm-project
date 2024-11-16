@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom"
 import ProfilePicture from "./ProfilePicture";
 
 
-const UserDetails = memo(({firstName, lastName}) => {
+const UserDetails = memo(({firstName, lastName, userId}) => {
   const navigate = useNavigate()
-  const sendRequest = async () => {
-    navigate("/send")
+  const redirectTopaymentGateway = () => { 
+    navigate(`/send?id=${userId}`) 
   }
 
   return (
@@ -18,7 +18,7 @@ const UserDetails = memo(({firstName, lastName}) => {
         </div>
         <div>
           <button 
-          onClick={sendRequest}
+          onClick={redirectTopaymentGateway}
           className="font-Inter font-bold px-3 text-base py-2 
       bg-black hover:bg-gray-800 transition-colors text-white rounded-md tracking-wide">
             Send Money
