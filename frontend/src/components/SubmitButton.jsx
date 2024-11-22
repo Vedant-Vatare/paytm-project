@@ -1,11 +1,13 @@
-export default function SubmitButton({ text, handler }) {
+import Loader from "./Loader";
+
+export default function SubmitButton({ text, handler, loadingState = false }) {
   return (
     <>
       <button
         onClick={handler}
-        className={`w-full my-4 font-Inter font-bold text-2xl py-2 
-      bg-black hover:bg-gray-800 transition-colors text-white rounded-md tracking-wide`}>
-        {text}
+        className={`w-full min-h-12 my-4 font-Inter font-bold text-2xl py-2 
+      bg-indigo-600 hover:bg-indigo-700 transition-colors text-white  rounded-md tracking-wide`}>
+        { loadingState ? <Loader/> : text}
       </button>
     </>
   );

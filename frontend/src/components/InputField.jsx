@@ -16,7 +16,7 @@ const InputField = memo(
             {type === "password" ? (
               <>
                 <input
-                  className="rounded-sm outline outline-1 w-full p-2 px-4 relative"
+                  className="rounded-sm outline outline-1 w-full p-2 px-4 relative focus:outline-none focus:ring-2 focus:ring-blue-600"
                   type={isPasswordVisible ? "text" : "password"}
                   name={name}
                   minLength={8}
@@ -35,7 +35,7 @@ const InputField = memo(
               </>
             ) : (
               <input
-                className="rounded-sm outline outline-1 w-full p-2 px-4 relative"
+                className="invalid:border-red-500 rounded-sm outline outline-1 w-full p-2 px-4 relative focus:outline-none focus:ring-2 focus:ring-blue-600"
                 type={type}
                 name={name}
                 maxLength={name == "firstName" || name=="lastName" ? 50 : null}

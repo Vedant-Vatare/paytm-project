@@ -5,10 +5,10 @@ const  RedirectText = memo(({label, buttonText, to}) => {
     <>
       <div className="flex gap-1">
         <span>{label}</span>
-        <Link className="underline underline-offset-3" to={to}>{buttonText}</Link>
+        <Link className="underline underline-offset-3 text-blue-600 font-bold" to={to}>{buttonText}</Link>
       </div>
     </>
   )
 })
-
+  
 export default RedirectText;

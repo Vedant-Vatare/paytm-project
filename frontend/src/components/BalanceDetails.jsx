@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
-const BalanceDetails = () => {
+const BalanceDetails = memo(() => {
   const [balance, setbalance] = useState();
   useEffect(() => {
     axios
@@ -20,6 +20,6 @@ const BalanceDetails = () => {
       </div>
     </>
   );
-};
+});
 
 export default BalanceDetails;

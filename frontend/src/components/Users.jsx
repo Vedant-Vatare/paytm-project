@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import InputField from "./InputField";
 import UserDetails from "./UserDetails";
 import LoadingUsers from "./LoadingUsers";
 import axios from "axios";
 
-const Users = () => {
+const Users = memo(() => {
   const [filter, setFilter] = useState("");
   const [usersList, setUsersList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,5 +70,5 @@ const Users = () => {
       </div>
     </>
   );
-};
+});
 export default Users;
