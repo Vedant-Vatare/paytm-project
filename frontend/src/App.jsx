@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes, } from "react-router-dom";
 import { Suspense, lazy } from "react";
+import LoadingPage from "./components/LoadingPage";
 const Signin = lazy(() => import("./pages/signin"));
 const Signup = lazy(() => import("./pages/signup"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -7,7 +8,6 @@ const PaymentGateway = lazy(()=> import("./pages/paymentGateway"))
 const LandingPage = lazy(()=> import("./pages/LandingPage"))
 const ForgotPassword = lazy(()=> import("./pages/ForgotPassword"))
 const Resetpassword = lazy(()=> import("./pages/ResetPassword"))
-import LoadingPage from "./components/LoadingPage";
 
 function App() {
   return (

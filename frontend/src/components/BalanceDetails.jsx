@@ -1,11 +1,11 @@
 import axios from "axios";
 import { memo, useEffect, useState } from "react";
-
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL
 const BalanceDetails = memo(() => {
   const [balance, setbalance] = useState();
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/account/balance", {
+      .get(`${BACKEND_BASE_URL}/account/balance`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -15,7 +15,7 @@ const BalanceDetails = memo(() => {
   }, []);
   return (
     <>
-      <div className="text-xl font-medium font-opensans">
+      <div className="text-xl font-medium font-opensans text-right">
         Your balance: Rs. {balance}
       </div>
     </>

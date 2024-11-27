@@ -3,7 +3,7 @@ import InputField from "./InputField";
 import UserDetails from "./UserDetails";
 import LoadingUsers from "./LoadingUsers";
 import axios from "axios";
-
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL
 const Users = memo(() => {
   const [filter, setFilter] = useState("");
   const [usersList, setUsersList] = useState([]);
@@ -23,7 +23,7 @@ const Users = memo(() => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/user/bulk?filter=${filter}`,
+        `${BACKEND_BASE_URL}/user/bulk?filter=${filter}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -43,7 +43,6 @@ const Users = memo(() => {
   }, [filter]);
   return (
     <>
-      <h1 className="font-semibold font-opensans text-2xl my-6">Users</h1>
       <InputField
         name="user"
         placeholder="Search Users"
@@ -53,7 +52,7 @@ const Users = memo(() => {
       <div className="mt-8">
         {isLoading ? (
           <LoadingUsers />
-        ) : usersList.length > 0 ? (
+        ) : usersList?.length > 0 ? (
           usersList.map((user, index) => {
             return (
               <UserDetails

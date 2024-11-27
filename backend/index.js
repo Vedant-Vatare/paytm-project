@@ -8,4 +8,4 @@ const PORT = 3000;
 const rootRouter = require("./routes/index");
 app.use("/api/v1", rootRouter);
 
-app.listen(PORT);
+app.listen(3000, "0.0.0.0");

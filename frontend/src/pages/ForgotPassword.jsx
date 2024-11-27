@@ -2,6 +2,7 @@ import { useState } from "react";
 import SubmitButton from "../components/SubmitButton";
 import platformLogo from "../public/upi.svg";
 import axios from "axios";
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ const ForgotPassword = () => {
   const handleFormSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/forgot-password",
+        `${BACKEND_BASE_URL}/user/forgot-password`,
         {
           email: email,
         }

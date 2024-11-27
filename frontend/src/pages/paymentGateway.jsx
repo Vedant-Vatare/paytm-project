@@ -14,12 +14,13 @@ export default function SendMoney() {
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL
 
   useEffect(() => {
     if (!recipientUserId) return;
     axios
       .get(
-        `http://localhost:3000/api/v1/user/recipient?id=${recipientUserId}`,
+        `${BACKEND_BASE_URL}/user/recipient?id=${recipientUserId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -34,7 +35,7 @@ export default function SendMoney() {
     setIsLoading(true)
     try {
       const paymentResponse = await axios.post(
-        "http://localhost:3000/api/v1/account/transfer",
+        `${BACKEND_BASE_URL}/account/transfer`,
         {
           toAccount: recipientUserId,
           amount,

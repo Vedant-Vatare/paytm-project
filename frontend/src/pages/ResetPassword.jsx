@@ -3,6 +3,7 @@ import platformLogo from "../public/upi.svg";
 import SubmitButton from "../components/SubmitButton";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL
 
 const Resetpassword = ()=> {
   const [password, setPassword] = useState("")
@@ -21,7 +22,7 @@ const Resetpassword = ()=> {
     console.log(token)
     try {
 
-      const response = axios.post(`http://localhost:3000/api/v1/user/reset-password/?token=${token}`,{
+      const response = axios.post(`${BACKEND_BASE_URL}/user/reset-password/?token=${token}`,{
         password
       })
       console.log(response.data);

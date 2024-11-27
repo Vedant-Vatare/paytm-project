@@ -4,15 +4,15 @@ const LoadingUsers = memo(() => {
   const skeletonLoader = () => {
     return (
       <>
-        <div className="w-full flex justify-between items-center my-6 p-3 rounded-sm outline outline-2 outline-gray-200 bg-slate-50">
+        <div className="w-full flex justify-between items-center my-6 lg:p-4 p-2 rounded-lg outline outline-2 outline-primary-black-100 bg-primary-black-100">
           <div className="flex gap-8 items-center">
-            <div className="h-12 w-12 rounded-full animate-pulse bg-gray-300"></div>
+            <div className="h-12 w-12 rounded-full animate-pulse bg-primary-dark-700"></div>
             <div className="flex gap-4">
-              <div className="h-6 w-20 rounded-full animate-pulse delay-50 bg-gray-300"></div>
-              <div className="h-6 w-24 rounded-full animate-pulse bg-gray-300"></div>
+              <div className="h-6 w-20 rounded-full animate-pulse delay-50 bg-primary-dark-900"></div>
+              <div className="h-6 w-24 rounded-full animate-pulse bg-primary-dark-900"></div>
             </div>
           </div>
-          <div className=" h-8  w-28 rounded-md px-3  py-2 animate-pulse bg-gray-300"></div>
+          <div className=" h-8  w-28 rounded-md px-3  py-2 animate-pulse bg-primary-dark-900"></div>
         </div>
       </>
     );
