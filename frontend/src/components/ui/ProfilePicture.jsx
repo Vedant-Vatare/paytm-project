@@ -12,7 +12,7 @@ const ProfilePicture = memo(( {text} ) => {
   return (
     <div 
       style={{backgroundColor: getRandomProfileColor()}}
-      className="h-14 w-14 rounded-full grid place-items-center font-semibold">
+      className=" h-12 w-12 max-h-full rounded-full grid place-items-center font-semibold">
       {formatText(text)}
     </div>
   )

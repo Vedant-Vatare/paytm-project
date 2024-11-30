@@ -22,6 +22,7 @@ function App() {
           <Route path="/send" element={<PaymentGateway />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<Resetpassword />} />
+          <Route path="/test" element={<LoadingPage />} />
         </Routes>
       </Suspense>
       </BrowserRouter>

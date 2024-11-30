@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { memo } from "react";
-
+import EyesOpened from "../../icons/EyesOpen.jsx"
+import EyesClosed from "../../icons/EyesClosed.jsx"
 const InputFieldWithToggle = memo(({ label, placeholder, handler }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -17,7 +18,7 @@ const InputFieldWithToggle = memo(({ label, placeholder, handler }) => {
         <div className="relative w-full flex ">
           <>
             <input
-              className="bg-primary-black-100 group rounded-md  w-full p-4 relative focus:outline-none border-none focus:ring-2 focus:ring-blue-600"
+              className="dark:bg-primary-black-100 outline outline-primary-black-100 rounded-md  w-full p-2 px-3 md:p-3 relative focus:outline-none  focus:ring-2 focus:ring-blue-600"
               type={isPasswordVisible ? "text" : "password"}
               name={"password"}
               minLength={8}
@@ -30,9 +31,9 @@ const InputFieldWithToggle = memo(({ label, placeholder, handler }) => {
                 e.preventDefault();
                 togglePasswordVisibility();
               }}
-              className="absolute right-8 top-1/2 transform -translate-y-1/2 text-blue-600 font-bold border-none"
+              className="absolute right-4 top-1/2 p-2 transform -translate-y-1/2 text-primary-brand-color font-bold border-none bg-primary-"
             >
-              {isPasswordVisible ? "Hide" : "Show"}
+              {isPasswordVisible ? <EyesClosed/> : <EyesOpened/>}
             </button>
           </>
         </div>

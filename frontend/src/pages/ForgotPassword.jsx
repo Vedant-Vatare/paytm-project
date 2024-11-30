@@ -1,8 +1,7 @@
 import { useState } from "react";
-import SubmitButton from "../components/SubmitButton";
-import platformLogo from "../public/upi.svg";
 import axios from "axios";
-const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL
+import SubmitButton from "../components/ui/SubmitButton";
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -45,14 +44,7 @@ const ForgotPassword = () => {
     }
   };
   return (
-    <div className="w-full min-h-screen flex flex-col gap-4  items-center  bg-gray-950 relative pt-14">
-      <div className="bg-white rounded-full aspect-square flex items-center justify-center">
-        <img
-          src={platformLogo}
-          className="h-10 object-cover"
-          alt="UPI App Logo"
-        />
-      </div>
+    <div className="w-full min-h-screen flex flex-col gap-2  items-center  bg-gray-950 relative pt-28">
       <h2 className="w-full py-4  text-center text-2xl font-extralight font-poppins text-white">
         Reset Your Password
       </h2>
@@ -65,15 +57,23 @@ const ForgotPassword = () => {
           Enter your user account's verified email address and we will send you
           a password reset link.
         </div>
-        <input
-          className="w-full p-3 px-5 bg-[#151b23] border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-          type="email"
-          name="email"
-          required
-          placeholder="Enter your email address"
-          onInput={(e) => setEmail(e.target.value)}
-        />
-        <SubmitButton text={"Submit"} handler={handleFormSubmit} />
+        <form
+          className="w-full"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleFormSubmit();
+          }}
+        >
+          <input
+            className="w-full p-3 px-5 bg-[#151b23] border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            type="email"
+            name="email"
+            required
+            placeholder="Enter your email address"
+            onInput={(e) => setEmail(e.target.value)}
+          />
+          <SubmitButton text={"Submit"} />
+        </form>
       </div>
     </div>
   );

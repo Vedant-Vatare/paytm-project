@@ -69,14 +69,16 @@ router.post("/signin", async (req, res) => {
 function generateToken(email) {
   return jwt.sign({email}, process.env.JWT_secret, {expiresIn: "1h"})
 }
-async function sendEmailToUser(receiver, token) {
 
+async function sendEmailToUser(receiver, token) {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: process.env.nodeMailer_mail,
       pass: process.env.nodeMailer_pass,
     },
+    secure: true,
+    port: 465
   });
 
   const mailOptions = {
@@ -91,7 +93,7 @@ async function sendEmailToUser(receiver, token) {
       <p style="color: #4a5568; line-height: 1.5; margin-top: 10px;">We received a password reset request. Use the button below to reset your password:</p>
     </div>
     <div style="text-align: center;">
-      <a href=http://localhost:5173/reset-password/?token=${token} style="background-color: #20c130; color: white; padding: 12px 24px; font-size: 16px; text-decoration: none; border-radius: 5px; display: inline-block;">Reset Password</a>
+      <a href=${process.env.FRONTEND_BASE_URL}/reset-password/?token=${token} style="background-color: #20c130; color: white; padding: 12px 24px; font-size: 16px; text-decoration: none; border-radius: 5px; display: inline-block;">Reset Password</a>
     </div>
   </div>
 </div>
@@ -113,7 +115,6 @@ router.post("/forgot-password", async (req, res) => {
     const emailExists = await User.findOne({ email: email });
     if (emailExists) {
       const token = generateToken(email);
-      console.log(token)
       await sendEmailToUser(email, token);
       return res.status(200).json({ message: "user exists sent email" });
     } else {
@@ -130,8 +131,12 @@ router.post("/reset-password", async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_secret);
     if (decoded)  {
-      await User.updateOne({email: decoded.email}, {password: password})
-      return res.status(200).json({message: "password reset successful"})
+      const user = await User.updateOne({email: decoded.email}, {password: password})
+      const newToken = jwt.sign({email: user.email}, process.env.JWT_secret)
+      return res.status(200).json({
+        message: "password reset successful", 
+        token: newToken
+      })
     }
   } catch(e) {
     console.log(e)
@@ -152,6 +157,7 @@ router.get("/profile", authMiddleware, async (req, res) => {
 router.get("/recipient", authMiddleware, async (req, res) => {
   try {
     const recipientId = req.query.id;
+    console.group(recipientId)
     const recipient = await User.findById(recipientId);
     if (recipient)
       return res.status(200).json({
@@ -160,7 +166,9 @@ router.get("/recipient", authMiddleware, async (req, res) => {
           lastName: recipient.lastName,
         },
       });
-    else return res.status(400).json({ message: "User does not exists" });
+    else {
+      return res.status(400).json({ message: "User does not exists"});
+    }
   } catch (e) {
     return res.status(500).json({ message: "Error while getting user." });
   }

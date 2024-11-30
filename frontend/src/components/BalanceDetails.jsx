@@ -1,6 +1,6 @@
 import axios from "axios";
 import { memo, useEffect, useState } from "react";
-const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 const BalanceDetails = memo(() => {
   const [balance, setbalance] = useState();
   useEffect(() => {
@@ -15,8 +15,18 @@ const BalanceDetails = memo(() => {
   }, []);
   return (
     <>
-      <div className="text-xl font-medium font-opensans text-right">
-        Your balance: Rs. {balance}
+      <div
+        style={{
+          background: `linear-gradient(to right, hsl(220, 7%,13%),hsl(225, 6%, 10%))`,
+        }}
+        className="text-base font-Inter my-5 bg-primary-black-100 rounded-md w-max p-6 py-4"
+      >
+        <span className="">
+          Account Balance
+          <span className="font-semibold block font-poppins text-lg tracking-wide">
+            Rs.{balance?.toLocaleString("en-IN")}
+          </span>
+        </span>
       </div>
     </>
   );
