@@ -6,7 +6,9 @@ const zod = require("zod");
 const mongoose = require("mongoose");
 const { authMiddleware } = require("../middleware");
 const { User, Account } = require("../db");
-const nodemailer = require("nodemailer");
+const { sendEmailToUser } = require("../utils/sendMail");
+const { createHash, compareWithHash } = require("../utils/bcrypt");
+
 
 const userZodSchema = zod.object({
   email: zod.string().email().toLowerCase(),
@@ -33,7 +35,9 @@ router.post("/signup", async (req, res) => {
     return res.status(411).json({ message: "user already exists." });
   }
 
+  userData.password = await createHash(userData.password)
   const user = await User.create(userData);
+  console.log(userData)
   const jwt_token = jwt.sign({ userId: user._id }, process.env.JWT_secret);
 
   const accountDetails = await Account.create({
@@ -52,7 +56,9 @@ router.post("/signin", async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user)
       return res.status(400).json({ message: "email does not exists" });
-    if (req.body.password !== user.password)
+
+    const isPasswordCorrect = await compareWithHash(req.body.password, user.password)
+    if(!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid Password" });
 
     const jwt_token = jwt.sign({ userId: user._id }, process.env.JWT_secret);
@@ -67,46 +73,7 @@ router.post("/signin", async (req, res) => {
 });
 
 function generateToken(email) {
-  return jwt.sign({email}, process.env.JWT_secret, {expiresIn: "1h"})
-}
-
-async function sendEmailToUser(receiver, token) {
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.nodeMailer_mail,
-      pass: process.env.nodeMailer_pass,
-    },
-    secure: true,
-    port: 465
-  });
-
-  const mailOptions = {
-    from: "PayTM Project",
-    to: receiver,
-    subject: "Reset password request",
-    html: `<div style="font-family: Arial, sans-serif; background-color: #f7fafc; padding: 20px; width:100%">
-  <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 20px; position: relative;">
-    <h1 style="text-align: center; font-size: 24px; color: #333; margin-bottom: 20px;">PayTM Project</h1>
-    <div style="text-align: center; border: 1px solid #e2e8f0; padding: 20px; margin-bottom: 20px; border-radius: 8px; background-color: #f0f4f8; font-size: 18px;">
-      <b style="font-size: 20px; color: #2d3748;">Password Reset Request</b>
-      <p style="color: #4a5568; line-height: 1.5; margin-top: 10px;">We received a password reset request. Use the button below to reset your password:</p>
-    </div>
-    <div style="text-align: center;">
-      <a href=${process.env.FRONTEND_BASE_URL}/reset-password/?token=${token} style="background-color: #20c130; color: white; padding: 12px 24px; font-size: 16px; text-decoration: none; border-radius: 5px; display: inline-block;">Reset Password</a>
-    </div>
-  </div>
-</div>
-`,
-  };
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent:", info.response);
-    }
-  });
+  return jwt.sign({ email }, process.env.JWT_secret, { expiresIn: "1h" });
 }
 
 router.post("/forgot-password", async (req, res) => {
@@ -126,23 +93,26 @@ router.post("/forgot-password", async (req, res) => {
 });
 
 router.post("/reset-password", async (req, res) => {
-  const token = req.query.token
-  const password = req.body.password
+  const token = req.query.token;
+  const password = req.body.password;
   try {
     const decoded = jwt.verify(token, process.env.JWT_secret);
-    if (decoded)  {
-      const user = await User.updateOne({email: decoded.email}, {password: password})
-      const newToken = jwt.sign({email: user.email}, process.env.JWT_secret)
+    if (decoded) {
+      const hashedPassword = await createHash(password);
+      const user = await User.updateOne(
+        { email: decoded.email },
+        { password: hashedPassword }
+      );
+      const newToken = jwt.sign({ email: user.email }, process.env.JWT_secret);
       return res.status(200).json({
-        message: "password reset successful", 
-        token: newToken
-      })
+        message: "password reset successful",
+        token: newToken,
+      });
     }
-  } catch(e) {
-    console.log(e)
-    res.status(500).json({message: "server error or invalid token"})
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "server error or invalid token" });
   }
-  
 });
 
 router.get("/profile", authMiddleware, async (req, res) => {
@@ -157,7 +127,7 @@ router.get("/profile", authMiddleware, async (req, res) => {
 router.get("/recipient", authMiddleware, async (req, res) => {
   try {
     const recipientId = req.query.id;
-    console.group(recipientId)
+    console.group(recipientId);
     const recipient = await User.findById(recipientId);
     if (recipient)
       return res.status(200).json({
@@ -167,7 +137,7 @@ router.get("/recipient", authMiddleware, async (req, res) => {
         },
       });
     else {
-      return res.status(400).json({ message: "User does not exists"});
+      return res.status(400).json({ message: "User does not exists" });
     }
   } catch (e) {
     return res.status(500).json({ message: "Error while getting user." });
